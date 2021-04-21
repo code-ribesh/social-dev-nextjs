@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useContext } from 'react';
 import { UserContext } from '../lib/context';
+import { auth } from '../lib/firebase';
 
 export default function Navbar() {
   const { user, username } = useContext(UserContext);
@@ -21,9 +22,12 @@ export default function Navbar() {
         </li>
 
         {/* user is signed-in and has username */}
-        {user && (
+        {username && (
           <>
             <li className='push-left'>
+              <button onClick={() => auth.signOut}>Sign Out</button>
+            </li>
+            <li>
               <Link href='/admin'>
                 <button className='btn-blue'>Write Posts</button>
               </Link>
@@ -33,14 +37,11 @@ export default function Navbar() {
                 <img src={user?.photoURL || '/hacker.png'} />
               </Link>
             </li>
-            {/* <li>
-              <button>Sign Out</button>
-            </li> */}
           </>
         )}
 
         {/* user is not signed OR has not created username */}
-        {!user && (
+        {!username && (
           <li>
             <Link href='/enter'>
               <button className='btn-blue'>Log in</button>
