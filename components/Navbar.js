@@ -1,9 +1,16 @@
 import Link from 'next/link';
+import { useContext } from 'react';
+import { UserContext } from '../lib/context';
 
-export default function Navbar(params) {
-  const user = true;
-  const username = true;
+export default function Navbar() {
+  const { user, username } = useContext(UserContext);
+  // console.log('------------------------------');
+  // console.log(user);
+  // console.log('------------------------------');
+  // console.log(username);
 
+  // const user = null;
+  // const username = null;
   return (
     <nav className='navbar'>
       <ul>
@@ -13,8 +20,8 @@ export default function Navbar(params) {
           </Link>
         </li>
 
-        {/*USER IS SIGNED IN AND HAS USERNAME  */}
-        {username && (
+        {/* user is signed-in and has username */}
+        {user && (
           <>
             <li className='push-left'>
               <Link href='/admin'>
@@ -23,14 +30,17 @@ export default function Navbar(params) {
             </li>
             <li>
               <Link href={`/${username}`}>
-                <img src={user?.photoURL} />
+                <img src={user?.photoURL || '/hacker.png'} />
               </Link>
             </li>
+            {/* <li>
+              <button>Sign Out</button>
+            </li> */}
           </>
         )}
 
-        {/*USER IS NOT SIGNED OR HAS NOT CREATED USERNAME  */}
-        {!username && (
+        {/* user is not signed OR has not created username */}
+        {!user && (
           <li>
             <Link href='/enter'>
               <button className='btn-blue'>Log in</button>
